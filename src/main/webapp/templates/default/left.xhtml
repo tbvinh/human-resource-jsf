@@ -12,22 +12,26 @@
                 <nav class="sidebar-nav">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="#{request.contextPath}/faces/dashboard.xhtml">
                                 <i class="nav-icon icon-speedometer"></i> Dashboard
                                 <span class="badge badge-primary">NEW</span>
                             </a>
                         </li>
                         
+                        <li class="nav-item">
+                            <a class="nav-link" href="#{request.contextPath}/faces/employee/index.xhtml">
+                              <i class="icon-people icons"></i> Employees</a>
+                        </li>
                         
-                        <li class="nav-title">Components</li>
+                        <li class="nav-title">Features</li>
                         <li class="nav-item nav-dropdown">
                           <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="nav-icon icon-puzzle"></i> Base
+                            <i class="nav-icon icon-puzzle"></i> Setting
                           </a>
                           <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                              <a class="nav-link" href="base/breadcrumb.html">
-                                <i class="nav-icon icon-puzzle"></i> Breadcrumb
+                              <a class="nav-link" href="#{request.contextPath}/faces/admin.xhtml">
+                                <i class="nav-icon icon-puzzle"></i> Department
                               </a>
                             </li>
                             <li class="nav-item">

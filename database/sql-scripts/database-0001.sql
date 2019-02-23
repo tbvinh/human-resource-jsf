@@ -9,4 +9,4 @@ CREATE TABLE Users(
 
 INSERT INTO Users VALUES(0,'adam','adam');
 
-select * from  Users
+--select * from  Users

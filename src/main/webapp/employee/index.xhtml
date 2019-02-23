@@ -12,10 +12,8 @@
                 <!-- Breadcrumb-->
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Home</li>
-                    <li class="breadcrumb-item">
-                        <a href="#">Admin</a>
-                    </li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item">Employee</li>
+                    
                     <!-- Breadcrumb Menu-->
                     <li class="breadcrumb-menu d-md-down-none">
                         <div class="btn-group" role="group" aria-label="Button group">
@@ -31,10 +29,31 @@
                 </ol>
                 <div class="container-fluid">
                     <div class="animated fadeIn">
-                        Bank
+                        <table id="tblList" class="display">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <ui:repeat var="o" value="#{employeeBean.empls}">
+                                <tr>
+                                    <td>#{o.id}</td>
+                                    <td>#{o.name}</td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                <script>
+                    $(document).ready(function() {
+                        $('#tblList').DataTable();
+                    } );
+                </script>
             </main>
         </ui:define>
     </ui:composition>
 </html>
+
