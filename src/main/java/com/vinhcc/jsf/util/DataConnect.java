@@ -19,7 +19,7 @@ public class DataConnect {
             
             String driver = "org.apache.derby.jdbc.EmbeddedDriver";
             Class.forName(driver);
-            String url = "jdbc:derby:D:\\Projects\\Laclong-hr-java\\database\\hr-database.derby;create=true";
+            String url = "jdbc:derby:/D:/Projects/Laclong-hr-java/database/hr-database.derby;create=true";
             con = DriverManager.getConnection(url);
 
             return con;

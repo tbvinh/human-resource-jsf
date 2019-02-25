@@ -1,0 +1,189 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui = "http://java.sun.com/jsf/facelets">
+
+    <ui:composition>
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <h:form>
+                <div class="row">
+                    <div class="col-2">
+                        Mã
+                    </div>
+                    <div class="col-4">
+                        <h:inputText id="id" value="#{employeeEditBean.employee.id}" styleClass="form-control" />
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-2">
+                        Họ &amp; tên
+                    </div>
+                    <div class="col-4">
+                        <h:inputText id="name" value="#{employeeEditBean.employee.name}" styleClass="form-control" />
+                    </div>
+                    <div class="col-2">
+                        <input  class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-2">
+                        Giới tính
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control">
+                            <option></option>
+                            <option selected="selected">Nam</option>
+                            <option>Nữ</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        Tình trạng
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control">
+                            <option></option>
+                            <option selected="selected">Độc thân</option>
+                            <option>Kết hôn</option>
+                            <option>Ly dị</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-2">
+                        Ngày sinh
+                    </div>
+                    <div class="col-2">
+                        <input class="form-control" placeholder="dd/MM/yyyy" />
+                    </div>
+                    <div class="col-2">
+                        Nơi sinh
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control">
+                            <option></option>
+                            <option selected="selected">HCM</option>
+                            <option>Đồng Nai</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-2">
+                        Địa chỉ tạm trú
+                    </div>
+                    <div class="col-6">
+                        <input class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-2">
+                        Địa chỉ thường trú
+                    </div>
+                    <div class="col-6">
+                        <input class="form-control" />
+                    </div>
+                </div>
+
+
+                <div class="row mt-1">
+                    <div class="col-2">
+                        Điện thoại
+                    </div>
+                    <div class="col-3">
+                        <input class="form-control" />
+                    </div>
+                    <div class="col-3">
+                        <input class="form-control" />
+                    </div>
+                    <div class="col-1">
+                        Email
+                    </div>
+                    <div class="col-3">
+                        <input class="form-control" />
+                    </div>
+                </div>
+
+                
+
+                <div class="row mt-1">
+                    <div class="col-2">
+                        <label>Dân tộc</label>
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control">
+                            <option></option>
+                            <option selected="selected">Kinh</option>
+                            <option>Khơ me</option>
+                            <option>Chăm</option>
+                            <option>Hoa</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        Quốc tịch
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control">
+                            <option></option>
+                            <option selected="selected">Việt Nam</option>
+                            <option>Khác</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-2">
+                        Số CMND
+                    </div>
+                    <div class="col-3">
+                        <input class="form-control" />
+                    </div>
+                    <div class="col-1">
+                        Ngày cấp
+                    </div>
+                    <div class="col-2">
+                        <input class="form-control" />
+                    </div>
+                    <div class="col-1">
+                        Nơi cấp
+                    </div>
+                    <div class="col-2">
+                        <input class="form-control" />
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-2">
+                        Liên hệ người nhà
+                    </div>
+                    <div class="col-6">
+                        <input class="form-control" />
+                    </div>
+                </div>
+                <!--Save-->
+                <div class="row mt-1">
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-4">
+                        <h:commandButton value="Lưu" action="#{employeeEditBean.save}" styleClass="btn btn-info" >
+                            <f:ajax execute="@form"  />
+                        </h:commandButton>
+                    </div>
+                </div>
+
+
+            </h:form>
+        </div>
+
+    </ui:composition>
+
+</html>
+

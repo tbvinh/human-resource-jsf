@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:h="http://java.sun.com/jsf/html">
     <h:head>
         <meta charset="utf-8"/>
@@ -36,7 +37,8 @@
                                         </div>
 
 
-                                        <h:inputText id="username" styleClass="form-control" value="#{login.user}"></h:inputText>
+                                        <h:inputText id="username" a:autofocus="true"
+                                                     styleClass="form-control" value="#{login.user}"></h:inputText>
                                         <h:message for="username"></h:message>
 
                                     </div>

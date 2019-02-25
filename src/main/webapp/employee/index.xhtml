@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-
+      xmlns:f = "http://java.sun.com/jsf/core"   
       >
     <ui:composition template="/templates/default/main.xhtml">
+        <ui:param name = "title" value = "Human Resource - List of Employees"/>
         <ui:define name="content">
             <main class="main">
                 <!-- Breadcrumb-->
@@ -39,7 +40,11 @@
                             <tbody>
                             <ui:repeat var="o" value="#{employeeBean.empls}">
                                 <tr>
-                                    <td>#{o.id}</td>
+                                    <td>
+                                        <h:link outcome="edit" value="#{o.id}" >
+                                            <f:param name="id" value="#{o.id}" />
+                                        </h:link>
+                                    </td>
                                     <td>#{o.name}</td>
                                 </tr>
                             </ui:repeat>

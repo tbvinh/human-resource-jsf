@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/default/main.xhtml">
+        <ui:param name = "title" value = "Edit [#{employeeEditBean.employee.name}]" />
+        <ui:define name="content">
+            <main class="main">
+                <!-- Breadcrumb-->
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Home</li>
+                    <li class="breadcrumb-item">
+                        <a href="index.xhtml">Employee</a>
+                    </li>
+                    <li class="breadcrumb-item">[#{employeeEditBean.employee.name}]</li>
+                    <!-- Breadcrumb Menu-->
+                    <li class="breadcrumb-menu d-md-down-none">
+                        <div class="btn-group" role="group" aria-label="Button group">
+                            <a class="btn" href="#">
+                                <i class="icon-speech"></i>
+                            </a>
+                            <a class="btn" href="./">
+                                <i class="icon-graph"></i>  Dashboard</a>
+                            <a class="btn" href="#">
+                                <i class="icon-settings"></i>  Settings</a>
+                        </div>
+                    </li>
+                </ol>
+                <div class="container-fluid">
+                    <div class="animated fadeIn">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" 
+                                   href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+                                    Thông tin
+                                </a>
+                                <a class="nav-item nav-link" id="nav-salary-tab" data-toggle="tab" 
+                                   href="#nav-salary" role="tab" aria-controls="nav-salary" aria-selected="false">
+                                    Lương
+                                </a>
+                                <a class="nav-item nav-link" id="nav-department-tab" data-toggle="tab" 
+                                   href="#nav-department" role="tab" aria-controls="nav-department" aria-selected="false">
+                                    Group/Department
+                                </a>
+                                <a class="nav-item nav-link" id="nav-taxinfo-tab" data-toggle="tab" 
+                                   href="#nav-taxinfo" role="tab" aria-controls="nav-taxinfo" aria-selected="false">
+                                    Tax Info.
+                                </a>
+                                <a class="nav-item nav-link" id="nav-taxinfo-tab" data-toggle="tab" 
+                                   href="#nav-dependent" role="tab" aria-controls="nav-dependent" aria-selected="false">
+                                    Dependent
+                                </a>
+                                <a class="nav-item nav-link" id="nav-insurence-tab" data-toggle="tab" 
+                                   href="#nav-insurence" role="tab" aria-controls="nav-insurence" aria-selected="false">
+                                    Insurence
+                                </a>
+                                
+                                <a class="nav-item nav-link" id="nav-insurence-tab" data-toggle="tab" 
+                                   href="#nav-atm" role="tab" aria-controls="nav-atm" aria-selected="false">
+                                    ATM
+                                </a>
+                                <a class="nav-item nav-link" id="nav-insurence-tab" data-toggle="tab" 
+                                   href="#nav-contract" role="tab" aria-controls="nav-contract" aria-selected="false">
+                                    Contract
+                                </a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <ui:include src="profile.xhtml" >
+                                 <ui:param name="tabname" value="profile" />
+                            </ui:include>
+                            
+                            <ui:include src="salary.xhtml" >
+                                 <ui:param name="tabname" value="salary" />
+                            </ui:include>
+                            
+                            <ui:include src="department.xhtml" >
+                                 <ui:param name="tabname" value="department" />
+                            </ui:include>
+                            
+                            <ui:include src="taxinfo.xhtml" >
+                                 <ui:param name="tabname" value="taxinfo" />
+                            </ui:include>
+                            
+                            <ui:include src="dependent.xhtml" >
+                                 <ui:param name="tabname" value="dependent" />
+                            </ui:include>
+                            
+                            <ui:include src="insurence.xhtml" >
+                                 <ui:param name="tabname" value="insurence" />
+                            </ui:include>
+                            <ui:include src="atm.xhtml" >
+                                 <ui:param name="tabname" value="atm" />
+                            </ui:include>
+                            <ui:include src="contract.xhtml" >
+                                 <ui:param name="tabname" value="contract" />
+                            </ui:include>
+                        </div>
+                    </div>
+                </div>
+                
+            </main>
+            <!-- Modal -->
+
+            
+
+        </ui:define>
+    </ui:composition>
+</html>
+
