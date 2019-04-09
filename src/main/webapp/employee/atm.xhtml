@@ -9,22 +9,41 @@
 
     <ui:composition>
         <div class="tab-pane fade" id="nav-#{tabname}" role="tabpanel" aria-labelledby="nav-#{tabname}-tab">
-            <div class="row">
-                <div class="col-2">
-                    <label>Mã thẻ </label>
-                    <input class="form-control" />
-                </div>
+            <h:form>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>Mã thẻ </label>
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.ATM}" />
+                    </div>
 
-                <div class="col-2">
-                    <label>Ngân hàng</label>
-                    <input class="form-control" />
+                    <div class="col-sm-4">
+                        <label>Ngân hàng</label>
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.ATM_NGAN_HANG}" />
+                    </div>
+                    
+                    <div class="col-sm-4">
+                        <label>TK Ngân hàng</label>
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.SO_TK_BANK}" />
+                    </div>
                 </div>
-                <div class="col-2">
-                    <div><label> &nbsp;</label></div>
-                    <input type="button" class="btn btn-info" value="Save" />
-                </div>
-            </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>Mã thẻ 2 </label>
+                        <input class="form-control" />
+                    </div>
 
+                    <div class="col-sm-4">
+                        <label>Ngân hàng</label>
+                        <input class="form-control" />
+                    </div>
+                    <div class="col-sm-2">
+                        <div><label> &nbsp;</label></div>
+                        <h:commandButton value="Lưu" action="#{employeeEditBean.save}" styleClass="btn btn-info" >
+                            <f:ajax execute="@form" render="@form" />
+                        </h:commandButton>
+                    </div>
+                </div>
+            </h:form>
         </div>
     </ui:composition>
 

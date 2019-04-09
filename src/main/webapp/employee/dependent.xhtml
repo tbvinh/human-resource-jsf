@@ -9,8 +9,157 @@
 
     <ui:composition>
         <div class="tab-pane fade" id="nav-#{tabname}" role="tabpanel" aria-labelledby="nav-#{tabname}-tab">
-            #{tabname}
+            <h:form id="frmList#{tabname}">
+                <h:dataTable id="tbl#{tabname}" value="#{employeeEditBean.employeeContracts}" var="_row" class="display responsive nowrap" width="100%">
+                    <h:column a:data-priority="1">
+                        <f:facet name="header">ID</f:facet>    				
+                            #{_row.id}
+                    </h:column>
+                    <h:column a:data-priority="2">
+                        <f:facet name="header">Số HĐ</f:facet>    				
+                            #{_row.code}
+                    </h:column>
+                    <h:column a:data-priority="2">
+                        <f:facet name="header">Từ ngày</f:facet>    				
+                            #{_row.startDate}
+                    </h:column>
+
+                    <h:column a:data-priority="2">
+                        <f:facet name="header">Đến ngày</f:facet>    				
+                            #{_row.endDate}
+                    </h:column>
+                    <h:column a:data-priority="2">
+                        <f:facet name="header">Loại HĐ</f:facet>    				
+                            #{_row.contractType}
+                    </h:column>
+
+                    <h:column a:data-priority="0">
+                        <f:facet name="header">
+                            <h:commandLink action="#{employeeEditBean.addContract()}" value="Add" >
+                                <f:ajax render="form#{tabname}" onevent="onEventAdd#{tabname}" />
+                            </h:commandLink>
+                        </f:facet>   
+                        <h:commandLink action="#{employeeEditBean.editEmployeeContract(_row.id)}"
+                                       value="Edit(#{_row.id})"
+                                       >
+                            <f:ajax render="form#{tabname}" onevent="onEventEdit#{tabname}" />
+                        </h:commandLink>
+                    </h:column>
+
+                </h:dataTable>
+            </h:form>
         </div>
+        <div class="modal fade" id="dlg#{tabname}" tabindex="-1" role="dialog" 
+             aria-labelledby="dlg#{tabname}Label" aria-hidden="true"
+             data-backdrop="static"
+             >
+            <h:form id="form#{tabname}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="dlg#{tabname}Label">#{employeeEditBean.employeeContract.id==0 ? 'Add': 'Edit'}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <h:inputHidden value="#{employeeEditBean.employeeContract.id}" />
+                            
+                            <div class="row mt-1">
+                                <div class="col-2">Mã Hợp đồng</div>
+                                <div class="col-10">
+                                    <h:inputText id="txtContractCode" value="#{employeeEditBean.employeeContract.code}" 
+                                                 required="true" requiredMessage="Mã không được rỗng"
+                                                 styleClass="form-control"/>
+                                    <h:message for="txtContractCode" style="color: red" />
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-1">
+                                <div class="col-2">Từ ngày</div>
+                                <div class="col-4">
+                                    <h:inputText id="txtContractDateFrom" value="#{employeeEditBean.employeeContract.startDate}" 
+                                                 required="true" requiredMessage="Không được rỗng"
+                                                 styleClass="form-control">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:inputText>
+                                    <h:message for="txtContractDateFrom" style="color: red" />
+                                </div>
+                                <div class="col-1">Đến</div>
+                                <div class="col-4">
+                                    <h:inputText id="txtContractDateTo" value="#{employeeEditBean.employeeContract.endDate}" 
+                                                 styleClass="form-control">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:inputText>
+                                    <h:message for="txtContractDateTo" style="color: red" />
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-2">Loại HĐ</div>
+                                <div class="col-10">
+                                    <h:inputText id="txtContractType" value="#{employeeEditBean.employeeContract.contractType}" 
+                                                 required="true" requiredMessage="loại không được rỗng"
+                                                 styleClass="form-control"/>
+                                    <h:message for="txtContractType" style="color: red" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <h:commandButton type="submit" class="btn btn-primary" action="#{employeeEditBean.saveContract()}" value="Save">
+                                <f:ajax execute="@form" render="@form frmList#{tabname}" onevent="ajaxEventSave#{tabname}"
+                                        />
+                            </h:commandButton>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+        <script>
+            var dbContract = null;
+            $(document).ready(function () {
+
+                $('#dlg#{tabname}').on('shown.bs.modal', function () {
+                    setTimeout(function () {
+                        $('#form#{tabname}-txtContractCode').focus();
+                    }, 100);
+                });
+
+                dbContract = $('#frmList#{tabname}-tbl#{tabname}').DataTable({
+                    "bStateSave": true,
+                    "responsive": true,
+                    "columnDefs": [
+                        {"orderable": false, "targets": 5},
+                        
+                    ]
+                });
+            });
+
+            function onEventEdit#{tabname}(data) {
+                $('#dlg#{tabname}').modal('show');
+            }
+            function onEventAdd#{tabname}(data) {
+                $('#dlg#{tabname}').modal('show');
+            }
+            
+            function ajaxEventSave#{tabname}(data) {
+                
+                console.log('ajaxEventSave#{tabname}');
+
+                if (data.status === "success") {
+                    //Recreate datatable
+                    if(dbContract != null) dbContract.destroy();
+                    
+                    dbContract = $('#frmList#{tabname}-tbl#{tabname}').DataTable({
+                        "bStateSave": true,
+                        "columnDefs": [
+                            {"orderable": false, "targets": 5}
+                        ]
+                    });
+                }
+            }
+        </script>
     </ui:composition>
 
 </html>

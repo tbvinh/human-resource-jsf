@@ -9,7 +9,48 @@
 
     <ui:composition>
         <div class="tab-pane fade" id="nav-#{tabname}" role="tabpanel" aria-labelledby="nav-#{tabname}-tab">
-            #{tabname}
+            <h:form>
+                <div class="row">
+                    <div class="col-sm-1">
+                        Chức danh
+                    </div>
+                    <div class="col-sm-3">
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.CHUC_DANH}" />
+                    </div>
+                    <div class="col-sm-1">
+                        Khối
+                    </div>
+                    <div class="col-sm-2">
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.KHOI}" />
+                    </div>
+
+                    <div class="col-sm-1">
+                        Phòng ban
+                    </div>
+                    <div class="col-sm-2">
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.PHONG_BAN}" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        Bộ phận
+                    </div>
+                    <div class="col-sm-3">
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.BO_PHAN}" />
+                    </div>
+                    <div class="col-sm-1">
+                        Tổ
+                    </div>
+                    <div class="col-sm-2">
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.TOSX}" />
+                    </div>
+                    <div class="col-sm-2">
+                    <h:commandButton value="Lưu" action="#{employeeEditBean.save}" styleClass="btn btn-info" >
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:commandButton>
+                    </div>
+                </div>
+            </h:form>
         </div>
     </ui:composition>
 

@@ -5,52 +5,66 @@
 <html xmlns = "http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:ui = "http://java.sun.com/jsf/facelets">
 
     <ui:composition>
         <div class="tab-pane fade" id="nav-#{tabname}" role="tabpanel" aria-labelledby="nav-#{tabname}-tab">
-            <div class="row">
-                <div class="col-2">
-                    <label>Số sổ BHXH </label>
-                    <input class="form-control" />
-                </div>
+            <h:form>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label>Số sổ BHXH </label>
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.SO_BKXH}" />
+                    </div>
 
-                <div class="col-2">
-                    <label>Mã bệnh viện</label>
-                    <input class="form-control" />
+                    <div class="col-sm-2">
+                        <label>Mã bệnh viện</label>
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.MA_BENH_VIEN}" />
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Tên bệnh viện</label>
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.TEN_BENH_VIEN}" />
+                    </div>
                 </div>
-                <div class="col-4">
-                    <label>Tên bệnh viện</label>
-                    <input class="form-control" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <label>Mã Thẻ BH </label>
-                    <input class="form-control" />
-                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label>Mã Thẻ BH </label>
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.MA_BHYT}" />
+                    </div>
 
-                <div class="col-2">
-                    <label>Tham gia ngày </label>
-                    <input class="form-control" />
+                    <div class="col-sm-2">
+                        <label>Tham gia ngày </label>
+                        <h:inputText id="THAM_GIA_BHXH" styleClass="form-control" value="#{employeeEditBean.employee.THAM_GIA_BHXH}" 
+                                     a:placeholder="dd/MM/yyyy">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:inputText>
+                        <h:message for="THAM_GIA_BHXH" style="color: red;" />
+                    </div>
+                    <div class="col-sm-2">
+                        <label>Kết thúc ngày </label>
+                        <h:inputText id="KET_THUC_BHXH" styleClass="form-control" value="#{employeeEditBean.employee.KET_THUC_BHXH}" 
+                                     a:placeholder="dd/MM/yyyy">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:inputText>
+                        <h:message for="KET_THUC_BHXH" style="color: red;" />
+                    </div>
+                    <div class="col-sm-2">
+                        <label>Lương đóng </label>
+                        <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.LUONG_BHXH}" />
+                    </div>
                 </div>
-                <div class="col-2">
-                    <label>Kết thúc ngày </label>
-                    <input class="form-control" />
+                <div class="row mt-2">
+                    <div class="col-sm-6">
+
+                    </div>
+                    <div class="col-sm-2">
+                        
+                        <h:commandButton value="Lưu" action="#{employeeEditBean.save}" styleClass="btn btn-info" >
+                            <f:ajax execute="@form" render="@form" />
+                        </h:commandButton>
+                    </div>
                 </div>
-                <div class="col-2">
-                    <label>Lương đóng </label>
-                    <input class="form-control" />
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-6">
-                    
-                </div>
-                <div class="col-2">
-                    <input type="button" class="btn btn-info" value="Save" />
-                </div>
-            </div>
+            </h:form>
         </div>
     </ui:composition>
 

@@ -5,12 +5,444 @@
 <html xmlns = "http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:ui = "http://java.sun.com/jsf/facelets">
 
     <ui:composition>
         <div class="tab-pane fade" id="nav-#{tabname}" role="tabpanel" aria-labelledby="nav-#{tabname}-tab">
-            #{tabname}
+            <h:form id="frmList#{tabname}">
+                <h:dataTable id="tbl#{tabname}" value="#{employeeEditBean.employeeContracts}" var="_row" class="display responsive nowrap" width="100%">
+                    <h:column a:data-priority="6">
+                        <f:facet name="header">ID</f:facet>    				
+                            #{_row.id}
+                    </h:column>
+                    <h:column a:data-priority="2">
+                        <f:facet name="header">Số HĐ</f:facet>    				
+                            #{_row.code}
+                    </h:column>
+                    <h:column a:data-priority="3" a:data-sort="#{_row.startDate}" >
+                        <f:facet name="header">Từ ngày</f:facet>    				
+
+                        <h:outputText value="#{_row.startDate}">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </h:column>
+
+                    <h:column a:data-priority="4" a:data-sort="#{_row.endDate}">
+                        <f:facet name="header">Đến ngày</f:facet>    				
+                        <h:outputText value="#{_row.endDate}">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+
+                    </h:column>
+                    <h:column a:data-priority="5">
+                        <f:facet name="header">Loại HĐ</f:facet>    				
+                            #{_row.contractType}
+                    </h:column>
+
+                    <h:column a:data-priority="0">
+                        <f:facet name="header">
+                            <h:commandLink action="#{employeeEditBean.addContract()}" value="Add" >
+                                <f:ajax render="form#{tabname}" onevent="onEventAdd#{tabname}" />
+                            </h:commandLink>
+                        </f:facet>   
+                        <h:commandLink action="#{employeeEditBean.editEmployeeContract(_row.id)}"
+                                       value="Edit"
+                                       >
+                            <f:ajax render="form#{tabname}" onevent="onEventEdit#{tabname}" />
+                        </h:commandLink>
+                        <h:outputText value=" " escape="true"/>
+                        <h:commandLink action="#{employeeEditBean.editEmployeeContract(_row.id)}"
+                                       value=" " class="fa fa-trash" style="color: #e0a800 !important;"
+                                       >
+                            <f:ajax render="form#{tabname}Delete" onevent="onEventDelete#{tabname}" />
+                        </h:commandLink>
+
+                    </h:column>
+
+                </h:dataTable>
+            </h:form>
         </div>
+        <!--Add Dialog-->
+        <div class="modal fade" id="dlg#{tabname}" tabindex="-1" role="dialog" 
+             aria-labelledby="dlg#{tabname}Label" aria-hidden="true"
+             data-backdrop="static"
+             >
+            <h:form id="form#{tabname}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="dlg#{tabname}Label">#{employeeEditBean.employeeContract.id==0 ? 'Add': 'Edit'}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <h:inputHidden value="#{employeeEditBean.employeeContract.id}" />
+
+                            <div class="row mt-1">
+                                <div class="col-sm-3 ">Mã Hợp đồng</div>
+                                <div class="col-sm-9">
+                                    <h:inputText id="txtContractCode" value="#{employeeEditBean.employeeContract.code}" 
+                                                 required="true" requiredMessage="Mã không được rỗng"
+                                                 styleClass="form-control"/>
+                                    <h:message for="txtContractCode" style="color: red" />
+                                </div>
+                            </div>
+
+                            <div class="row mt-1">
+                                <div class="col-sm-3">Từ ngày</div>
+                                <div class="col-sm-4">
+                                    <h:inputText id="txtContractDateFrom" value="#{employeeEditBean.employeeContract.startDate}" 
+                                                 required="true" requiredMessage="Không được rỗng"
+                                                 styleClass="form-control"
+                                                 a:placeholder="dd/MM/yyyy">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:inputText>
+                                    <h:message for="txtContractDateFrom" style="color: red" />
+                                </div>
+                                <div class="col-sm-1">
+                                    <label>Đến</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h:inputText id="txtContractDateTo" value="#{employeeEditBean.employeeContract.endDate}" 
+                                                 styleClass="form-control"
+                                                 a:placeholder="dd/MM/yyyy">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:inputText>
+                                    <h:message for="txtContractDateTo" style="color: red" />
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-sm-3">Loại HĐ</div>
+                                <div class="col-sm-9">
+                                    <h:inputText id="txtContractType" value="#{employeeEditBean.employeeContract.contractType}" 
+                                                 required="true" requiredMessage="loại không được rỗng"
+                                                 styleClass="form-control"/>
+                                    <h:message for="txtContractType" style="color: red" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h:messages id="contractErrors" style="display: none" />
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h:dataTable id="tbl#{tabname}Doc" value="#{employeeEditBean.employeeContract.documents}" var="_row" class="display nowrap" width="100%">
+                                        <h:column a:data-priority="1">
+                                            <f:facet name="header">ID</f:facet>    				
+                                                #{_row.id}
+                                        </h:column>
+                                        <h:column a:data-priority="2">
+                                            <f:facet name="header">File Name</f:facet>    				
+                                            <h:commandLink value="#{_row.fileName}" action="#{pDFUploadBean.download(_row.id)}" immediate="true" >
+
+                                            </h:commandLink>
+                                        </h:column>
+                                        <h:column a:data-priority="3">
+                                            <f:facet name="header">File Type</f:facet> 
+                                                #{_row.fileType}
+                                        </h:column>
+                                        <h:column a:data-priority="1">
+                                            <f:facet name="header">
+                                                <a href="#" data-toggle="modal" data-target="#contractUploadModal">
+                                                    Upload
+                                                </a>
+                                            </f:facet> 
+                                            <a href="#" onclick="onclickDeleteFile(this, event, '#{_row.code}', '#{_row.fileName}')" >Delete</a>
+                                        </h:column>
+
+                                    </h:dataTable>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <h:commandButton type="submit" class="btn btn-primary" action="#{employeeEditBean.saveContract()}" value="Save">
+                                <f:ajax execute="@form" render="@form frmList#{tabname}" onevent="ajaxEventSave#{tabname}"
+                                        />
+                            </h:commandButton>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+
+        <!--Delete Dialog-->
+        <div class="modal fade" id="dlg#{tabname}Delete" tabindex="-1" role="dialog" 
+             aria-labelledby="dlg#{tabname}LabelDelete" aria-hidden="true"
+             data-backdrop="static"
+             >
+            <h:form id="form#{tabname}Delete">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="dlg#{tabname}LabelDelete">Delete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <h:inputHidden value="#{employeeEditBean.employeeContract.id}" />
+
+                            <div class="row mt-1">
+                                <div class="col-sm-3 ">Mã Hợp đồng</div>
+                                <div class="col-sm-9">
+                                    <h:outputLabel value="#{employeeEditBean.employeeContract.code}" 
+                                                   styleClass="form-control"/>
+
+                                </div>
+                            </div>
+
+                            <div class="row mt-1">
+                                <div class="col-sm-3">Từ ngày</div>
+                                <div class="col-sm-4">
+                                    <h:outputLabel id="txtContractDateFrom" value="#{employeeEditBean.employeeContract.startDate}" 
+                                                   styleClass="form-control"
+                                                   a:placeholder="dd/MM/yyyy">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputLabel>
+                                    <h:message for="txtContractDateFrom" style="color: red" />
+                                </div>
+                                <div class="col-sm-1">
+                                    <label>Đến</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h:outputLabel value="#{employeeEditBean.employeeContract.endDate}" 
+                                                   styleClass="form-control"
+                                                   a:placeholder="dd/MM/yyyy">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputLabel>
+
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-sm-3">Loại HĐ</div>
+                                <div class="col-sm-9">
+                                    <h:outputLabel value="#{employeeEditBean.employeeContract.contractType}" 
+                                                   styleClass="form-control"/>
+
+                                </div>
+                            </div>                            
+                            <h:messages id="contractErrors" style="display: none" />
+
+                        </div>
+                        <div class="modal-footer">
+                            <h:commandButton type="submit" class="btn btn-warning" action="#{employeeEditBean.deleteContract()}" value="Delete">
+                                <f:ajax execute="@form" render="@form frmList#{tabname}" onevent="ajaxEventDelete#{tabname}"
+                                        />
+                            </h:commandButton>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+
+        <!--Upload PDF-->
+        <div class="modal fade" id="contractUploadModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Upload PDF</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h:form enctype="multipart/form-data" id="frmUploadPDF">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <h:outputLabel for="filePDF" style="cursor: pointer;">
+                                            <img id="contractImage" src="#{request.contextPath}/faces/pictures/empl-blank.png" width="100" height="100" />
+
+                                            <h:inputFile id="filePDF" value="#{pDFUploadBean.fileUpload}" required="true"
+                                                         style="display: none">
+                                                <f:ajax listener="#{pDFUploadBean.handleFileUpload}" render="@form" 
+                                                        onevent="uploadPDFEvent"
+                                                        />
+                                            </h:inputFile>
+                                        </h:outputLabel>
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                        <h:commandButton value="Save" class="btn btn-info align-bottom" styleClass="clsUploadSave"
+                                                         style="display: none"
+                                                         action="#{pDFUploadBean.save(employeeEditBean.employeeContract)}" >
+                                            <f:ajax  render="form#{tabname}-tbl#{tabname}Doc" />
+                                        </h:commandButton>
+                                    </div>
+                                </div>          
+                                <div class="row">
+                                    <div class="col-sm-8">
+
+                                        <p> <h:messages id="messages" style="color: red;"/></p>                                            
+                                    </div>
+
+                                </div>                                    
+
+                            </div>
+                        </h:form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="cmdUploadSaveClick" >Lưu</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Delete File-->
+        <div class="modal fade" id="contractDeleteFile" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <h:form id="formDeleteFile">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete File?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <label id="labelFileName"></label>
+
+                            <h:inputHidden id="fileCode" value = "#{pDFUploadBean.fileCode}"/>
+                            
+
+                        </div>
+                        <div class="modal-footer">
+                            
+                            <h:commandButton styleClass="btn btn-warning" action="#{pDFUploadBean.delete(employeeEditBean.employeeContract)}" value="Delete" >
+                                <f:ajax execute="@form" render="form#{tabname}-tbl#{tabname}Doc" onevent="deletePDFEvent" />
+                            </h:commandButton>
+                            
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var dbContract = null;
+            function uploadPDFEvent(data) {
+                if (data.status == "success") {
+                    $('#cmdUploadSaveClick').removeAttr("disabled");
+                }
+            }
+            function deletePDFEvent(data) {
+                if (data.status == "success") {
+                    $('#contractDeleteFile').modal('hide');
+                }
+            }
+            
+            function onclickDeleteFile(self, event, code, fileName) {
+                event.preventDefault();
+                $('#contractDeleteFile #labelFileName').html(fileName);
+                console.log(code);
+                $('#formDeleteFile-fileCode').val(code);
+                $('#contractDeleteFile').modal('show');
+                return false;
+            }
+            ;
+            $(document).ready(function () {
+
+                $('#cmdUploadSaveClick').click(function () {
+                    $('.clsUploadSave').click();
+                    $('#frmUploadPDF-messages').html("");
+                    $('#contractUploadModal').modal('hide');
+
+                    $.notify('<strong>Upload</strong> Done '
+                            , {type: 'info', allow_dismiss: true, z_index: 1060, animate: {enter: 'animated fadeInDown', exit: 'animated fadeOutUp'}}
+                    );
+                });
+
+                $('#dlg#{tabname}').on('shown.bs.modal', function () {
+                    setTimeout(function () {
+                        $('#form#{tabname}-txtContractCode').focus();
+                    }, 100);
+
+                    $('#form#{tabname}-tbl#{tabname}Doc').DataTable({
+                        "lengthMenu": [[4, 25], [5, 25]],
+                        "columnDefs": [{
+                                "targets": 3,
+                                "orderable": false
+                            }]
+                    });
+
+                });
+                $('#contractUploadModal').on('shown.bs.modal', function () {
+                    $('#frmUploadPDF-messages').html("");
+                    $('#cmdUploadSaveClick').attr("disabled", true);
+                });
+                $('#frmList#{tabname}-tbl#{tabname}Doc').DataTable({
+                    rowReorder: {
+                        selector: 'td:nth-child(2)'
+                    },
+                    responsive: true
+                });
+
+                dbContract = $('#frmList#{tabname}-tbl#{tabname}').DataTable({
+                    "bStateSave": true,
+                    "responsive": true,
+                    "columnDefs": [
+                        {"orderable": false, "targets": 5},
+                    ]
+                });
+
+
+            });
+            function onEventEdit#{tabname}(data) {
+                $('#dlg#{tabname}').modal('show');
+            }
+            function onEventAdd#{tabname}(data) {
+                $('#dlg#{tabname}').modal('show');
+            }
+            function onEventDelete#{tabname}(data) {
+                $('#dlg#{tabname}Delete').modal('show');
+            }
+            function ajaxEventDelete#{tabname}(data) {
+
+                let err = $('#formcontract-contractErrors').html();
+                if (err === '')
+                    if (data.status === "success") {
+                        //Recreate datatable
+
+                        if (dbContract != null)
+                            dbContract.destroy();
+                        $('#dlg#{tabname}Delete').modal('hide');
+                        dbContract = $('#frmList#{tabname}-tbl#{tabname}').DataTable({
+                            "bStateSave": true,
+                            "columnDefs": [
+                                {"orderable": false, "targets": 5}
+                            ]
+                        });
+                    }
+            }
+
+            function ajaxEventSave#{tabname}(data) {
+
+                let err = $('#formcontract-contractErrors').html();
+                if (err === '')
+                    if (data.status === "success") {
+                        //Recreate datatable
+
+                        if (dbContract != null)
+                            dbContract.destroy();
+                        $('#dlg#{tabname}').modal('hide');
+                        dbContract = $('#frmList#{tabname}-tbl#{tabname}').DataTable({
+                            "bStateSave": true,
+                            "columnDefs": [
+                                {"orderable": false, "targets": 5}
+                            ]
+                        });
+                    }
+            }
+        </script>
     </ui:composition>
 
 </html>

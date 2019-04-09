@@ -1,0 +1,75 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui = "http://java.sun.com/jsf/facelets">
+
+    <ui:composition>
+        <div class="modal fade" id="dlg#{tabname}" tabindex="-1" role="dialog" 
+             aria-labelledby="dlg#{tabname}Label" aria-hidden="true"
+             data-backdrop="static"
+             >
+            <h:form id="form#{tabname}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="dlg#{tabname}Label">Add New</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row mt-1">
+                                <div class="col-sm-3 ">Mã Nhân Viên</div>
+                                <div class="col-sm-9">
+                                    <h:inputText id="txtCode" value="#{newEmployeeBean.empl.MSNV6}" 
+                                                 required="true" requiredMessage="Mã không được rỗng"
+                                                 styleClass="form-control"/>
+                                    <h:message for="txtCode" style="color: red" />
+                                </div>
+                            </div>
+
+                            <div class="row mt-1">
+                                <div class="col-sm-3">Họ</div>
+                                <div class="col-sm-4">
+                                    <h:inputText id="txtHo" value="#{newEmployeeBean.empl.HO}" 
+                                                 required="true" requiredMessage="Không được rỗng"
+                                                 styleClass="form-control"
+                                                 >
+                                    </h:inputText>
+                                    <h:message for="txtHo" style="color: red" />
+                                </div>
+                                <div class="col-sm-1">
+                                    <label>Tên</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h:inputText id="txtTen" value="#{newEmployeeBean.empl.TEN}" 
+                                                 styleClass="form-control"
+                                                 >
+                                    </h:inputText>
+                                    <h:message for="txtTen" style="color: red" />
+                                </div>
+                            </div>
+                            
+
+                        </div>
+                        <div class="modal-footer">
+                            <h:commandButton type="submit" class="btn btn-primary" action="#{newEmployeeBean.save()}" value="Save">
+                                <!--<f:ajax execute="@form" render="@form" onevent="ajaxEventSave#{tabname}"
+                                        />
+                                -->
+                            </h:commandButton>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </ui:composition>
+
+</html>
+

@@ -8,7 +8,7 @@
 
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/default/main.xhtml">
-        <ui:param name = "title" value = "Edit [#{employeeEditBean.employee.name}]" />
+        <ui:param name = "title" value = "Edit [#{employeeEditBean.employee.HO} #{employeeEditBean.employee.TEN}]" />
         <ui:define name="content">
             <main class="main">
                 <!-- Breadcrumb-->
@@ -17,7 +17,7 @@
                     <li class="breadcrumb-item">
                         <a href="index.xhtml">Employee</a>
                     </li>
-                    <li class="breadcrumb-item">[#{employeeEditBean.employee.name}]</li>
+                    <li class="breadcrumb-item">[#{employeeEditBean.employee.HO} #{employeeEditBean.employee.TEN}]</li>
                     <!-- Breadcrumb Menu-->
                     <li class="breadcrumb-menu d-md-down-none">
                         <div class="btn-group" role="group" aria-label="Button group">
@@ -32,6 +32,7 @@
                     </li>
                 </ol>
                 <div class="container-fluid">
+                    
                     <div class="animated fadeIn">
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -39,25 +40,18 @@
                                    href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
                                     Thông tin
                                 </a>
-                                <a class="nav-item nav-link" id="nav-salary-tab" data-toggle="tab" 
-                                   href="#nav-salary" role="tab" aria-controls="nav-salary" aria-selected="false">
-                                    Lương
-                                </a>
+                                
                                 <a class="nav-item nav-link" id="nav-department-tab" data-toggle="tab" 
                                    href="#nav-department" role="tab" aria-controls="nav-department" aria-selected="false">
-                                    Group/Department
+                                    Phòng/ban
                                 </a>
                                 <a class="nav-item nav-link" id="nav-taxinfo-tab" data-toggle="tab" 
                                    href="#nav-taxinfo" role="tab" aria-controls="nav-taxinfo" aria-selected="false">
-                                    Tax Info.
-                                </a>
-                                <a class="nav-item nav-link" id="nav-taxinfo-tab" data-toggle="tab" 
-                                   href="#nav-dependent" role="tab" aria-controls="nav-dependent" aria-selected="false">
-                                    Dependent
+                                    Thuế
                                 </a>
                                 <a class="nav-item nav-link" id="nav-insurence-tab" data-toggle="tab" 
                                    href="#nav-insurence" role="tab" aria-controls="nav-insurence" aria-selected="false">
-                                    Insurence
+                                    Bảo hiểm
                                 </a>
                                 
                                 <a class="nav-item nav-link" id="nav-insurence-tab" data-toggle="tab" 
@@ -66,7 +60,7 @@
                                 </a>
                                 <a class="nav-item nav-link" id="nav-insurence-tab" data-toggle="tab" 
                                    href="#nav-contract" role="tab" aria-controls="nav-contract" aria-selected="false">
-                                    Contract
+                                    Hợp đồng
                                 </a>
                             </div>
                         </nav>
@@ -75,9 +69,6 @@
                                  <ui:param name="tabname" value="profile" />
                             </ui:include>
                             
-                            <ui:include src="salary.xhtml" >
-                                 <ui:param name="tabname" value="salary" />
-                            </ui:include>
                             
                             <ui:include src="department.xhtml" >
                                  <ui:param name="tabname" value="department" />
@@ -85,10 +76,6 @@
                             
                             <ui:include src="taxinfo.xhtml" >
                                  <ui:param name="tabname" value="taxinfo" />
-                            </ui:include>
-                            
-                            <ui:include src="dependent.xhtml" >
-                                 <ui:param name="tabname" value="dependent" />
                             </ui:include>
                             
                             <ui:include src="insurence.xhtml" >
@@ -102,12 +89,22 @@
                             </ui:include>
                         </div>
                     </div>
+                    
                 </div>
-                
+                <script>
+                    $(document).ready(function () {
+                        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                            e.target // activated tab 
+                            e.relatedTarget // previous tab 
+                            var table = $.fn.dataTable.fnTables(true);
+                            if (table.length > 0) {
+                                $(table).dataTable().fnAdjustColumnSizing();
+                            }
+                        });
+                    });
+                </script>
             </main>
             <!-- Modal -->
-
-            
 
         </ui:define>
     </ui:composition>

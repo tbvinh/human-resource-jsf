@@ -5,184 +5,376 @@
 <html xmlns = "http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:ui = "http://java.sun.com/jsf/facelets">
 
     <ui:composition>
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <h:form>
+            <h:form id="profileForm">
                 <div class="row">
-                    <div class="col-2">
-                        Mã
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                Mã
+                            </div>
+                            <div class="col-sm-4">
+                                <h:inputText id="MSNV6" required="true" value="#{employeeEditBean.employee.MSNV6}" styleClass="form-control" />
+                                <h:message for="MSNV6" style="color: red;" />
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText id="MSNV" required="true" value="#{employeeEditBean.employee.MSNV}" styleClass="form-control" />
+                                <h:message for="MSNV" style="color: red;" />
+                            </div>
+                            <div class="col-sm-2">
+                                <div id="profileDivImage">
+                                    <!--                                    <h:graphicImage value="/images/empl-blank.png"/>-->
+
+                                    <a href="#" data-toggle="modal" data-target="#profileUploadModal">
+                                        <h:graphicImage id="profilePicture" value="/pictures/#{employeeEditBean.employee.MSNV6}.jpg" />
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                Họ &amp; tên
+                            </div>
+                            <div class="col-sm-4">
+                                <h:inputText id="ho" required="true"  value="#{employeeEditBean.employee.HO}" styleClass="form-control" />
+                                <h:message for="ho" style="color: red;" />
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText id="ten" styleClass="form-control" required="true"  value="#{employeeEditBean.employee.TEN}" />
+                                <h:message for="ten" style="color: red;" />
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                Ngày vào làm
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText styleClass="form-control" required="true" value="#{employeeEditBean.employee.DATE_IN}" 
+                                             a:placeholder="dd/MM/yyyy"
+                                             >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:inputText>
+
+                            </div>
+                            <div class="col-sm-2">
+                                Ngày nghỉ
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.DATE_OUT}" 
+                                             a:placeholder="dd/MM/yyyy">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:inputText>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <h:inputText id="id" value="#{employeeEditBean.employee.id}" styleClass="form-control" />
+
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                Giới tính
+                            </div>
+                            <div class="col-sm-2">
+
+                                <h:selectOneMenu value="#{employeeEditBean.employee.GIOI_TINH}" styleClass="form-control">
+                                    <f:selectItem itemValue="" itemLabel="" />
+                                    <f:selectItem itemValue="Nam" itemLabel="Nam" />
+                                    <f:selectItem itemValue="Nữ" itemLabel="Nữ" />
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="col-sm-2">
+                                Tình trạng
+                            </div>
+                            <div class="col-sm-2">
+                                <h:selectOneMenu value="#{employeeEditBean.employee.TINH_TRANG}" styleClass="form-control">
+                                    <f:selectItem itemValue="" itemLabel="" />
+                                    <f:selectItem itemValue="Độc thân" itemLabel="Độc thân" />
+                                    <f:selectItem itemValue="Kết hôn" itemLabel="Kết hôn" />
+                                    <f:selectItem itemValue="Ly dị" itemLabel="Ly dị" />                                    
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="row mt-1">
+
+                            <div class="col-sm-2">
+                                Ngày sinh
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText id="NGAY_SINH" required="true" styleClass="form-control" value="#{employeeEditBean.employee.NGAY_SINH}" 
+                                             a:placeholder="dd/MM/yyyy">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:inputText>
+                                <h:message for="NGAY_SINH" style="color: red;" />
+                            </div>
+                            <div class="col-sm-2">
+                                Nơi sinh
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.NOI_SINH}" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-1">
-                    <div class="col-2">
-                        Họ &amp; tên
-                    </div>
-                    <div class="col-4">
-                        <h:inputText id="name" value="#{employeeEditBean.employee.name}" styleClass="form-control" />
-                    </div>
-                    <div class="col-2">
-                        <input  class="form-control" />
-                    </div>
-                </div>
-
-                <div class="row mt-1">
-                    <div class="col-2">
-                        Giới tính
-                    </div>
-                    <div class="col-2">
-                        <select class="form-control">
-                            <option></option>
-                            <option selected="selected">Nam</option>
-                            <option>Nữ</option>
-                        </select>
-                    </div>
-                    <div class="col-2">
-                        Tình trạng
-                    </div>
-                    <div class="col-2">
-                        <select class="form-control">
-                            <option></option>
-                            <option selected="selected">Độc thân</option>
-                            <option>Kết hôn</option>
-                            <option>Ly dị</option>
-
-                        </select>
+                    <div class="col-sm-10">
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                Địa chỉ tạm trú
+                            </div>
+                            <div class="col-sm-6">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.DIA_CHI_01}" />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row mt-1">
-                    <div class="col-2">
-                        Ngày sinh
-                    </div>
-                    <div class="col-2">
-                        <input class="form-control" placeholder="dd/MM/yyyy" />
-                    </div>
-                    <div class="col-2">
-                        Nơi sinh
-                    </div>
-                    <div class="col-2">
-                        <select class="form-control">
-                            <option></option>
-                            <option selected="selected">HCM</option>
-                            <option>Đồng Nai</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row mt-1">
-                    <div class="col-2">
-                        Địa chỉ tạm trú
-                    </div>
-                    <div class="col-6">
-                        <input class="form-control" />
-                    </div>
-                </div>
-
-                <div class="row mt-1">
-                    <div class="col-2">
-                        Địa chỉ thường trú
-                    </div>
-                    <div class="col-6">
-                        <input class="form-control" />
+                    <div class="col-sm-10">
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                Địa chỉ thường trú
+                            </div>
+                            <div class="col-sm-6">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.DIA_CHI_02}" />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
 
                 <div class="row mt-1">
-                    <div class="col-2">
-                        Điện thoại
-                    </div>
-                    <div class="col-3">
-                        <input class="form-control" />
-                    </div>
-                    <div class="col-3">
-                        <input class="form-control" />
-                    </div>
-                    <div class="col-1">
-                        Email
-                    </div>
-                    <div class="col-3">
-                        <input class="form-control" />
+                    <div class="col-sm-10">
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                Điện thoại
+                            </div>
+                            <div class="col-sm-3">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.DIEN_THOAI}" />
+                            </div>
+
+                            <div class="col-sm-1">
+                                Email
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.EMAIL}" />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                
+
 
                 <div class="row mt-1">
-                    <div class="col-2">
-                        <label>Dân tộc</label>
-                    </div>
-                    <div class="col-2">
-                        <select class="form-control">
-                            <option></option>
-                            <option selected="selected">Kinh</option>
-                            <option>Khơ me</option>
-                            <option>Chăm</option>
-                            <option>Hoa</option>
-                        </select>
-                    </div>
-                    <div class="col-2">
-                        Quốc tịch
-                    </div>
-                    <div class="col-2">
-                        <select class="form-control">
-                            <option></option>
-                            <option selected="selected">Việt Nam</option>
-                            <option>Khác</option>
-
-                        </select>
+                    <div class="col-sm-10">
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                <label>Dân tộc</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.DAN_TOC}" />
+                            </div>
+                            <div class="col-sm-1">
+                                Quốc tịch
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.QUOC_TICH}" />
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                Số CMND
+                            </div>
+                            <div class="col-sm-3">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.CMND}" />
+                            </div>
+                            <div class="col-sm-1">
+                                Ngày cấp
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.CMND_DATE}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:inputText>
+                            </div>
+                            <div class="col-sm-1">
+                                Nơi cấp
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.NOI_CAP}" />
+                            </div>
+                        </div>
 
-                <div class="row mt-1">
-                    <div class="col-2">
-                        Số CMND
-                    </div>
-                    <div class="col-3">
-                        <input class="form-control" />
-                    </div>
-                    <div class="col-1">
-                        Ngày cấp
-                    </div>
-                    <div class="col-2">
-                        <input class="form-control" />
-                    </div>
-                    <div class="col-1">
-                        Nơi cấp
-                    </div>
-                    <div class="col-2">
-                        <input class="form-control" />
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                Số CMND cũ
+                            </div>
+                            <div class="col-sm-3">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.CMND_01}" />
+                            </div>
+                            <div class="col-sm-1">
+                                Ngày cấp
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.CMND_DATE_01}" 
+                                             a:placeholder="dd/MM/yyyy"
+                                             >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:inputText>
+                            </div>
+                            <div class="col-sm-1">
+                                Nơi cấp
+                            </div>
+                            <div class="col-sm-2">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.NOI_CAP_01}" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-1">
-                    <div class="col-2">
-                        Liên hệ người nhà
-                    </div>
-                    <div class="col-6">
-                        <input class="form-control" />
+                    <div class="col-sm-10">
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                Liên hệ người nhà
+                            </div>
+                            <div class="col-sm-6">
+                                <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.NGUOI_THAN}" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--Save-->
                 <div class="row mt-1">
-                    <div class="col-2">
+                    <div class="col-sm-2">
 
                     </div>
-                    <div class="col-4">
+                    <div class="col-sm-1">
                         <h:commandButton value="Lưu" action="#{employeeEditBean.save}" styleClass="btn btn-info" >
-                            <f:ajax execute="@form"  />
+                            <f:ajax execute="@form" render="@form" />
                         </h:commandButton>
+
                     </div>
+
                 </div>
-
-
             </h:form>
+
         </div>
 
+        <div class="modal fade" id="profileUploadModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Upload Picture</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h:form enctype="multipart/form-data" prependId="false">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <h:outputLabel for="file" style="cursor: pointer;">
+                                            <img id="profileImage" src="#{request.contextPath}/faces/pictures/#{imageUploadBean.fileName}" width="100" height="100" />
+                                        </h:outputLabel>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        
+                                        <h:commandButton value="Save" class="btn btn-info align-bottom"
+                                                         
+                                                         action="#{imageUploadBean.save(employeeEditBean.employee.MSNV6)}" >
+                                            <f:ajax  render=":profileForm-profilePicture" />
+                                        </h:commandButton>
+                                    </div>
+                                </div>          
+                                <div class="row">
+                                    <div class="col-sm-8">
+
+                                        <h:inputFile id="file" value="#{imageUploadBean.fileUpload}" required="true"
+                                                     style="display:none;" a:accept="image/jpg"
+                                                     >
+                                            <f:validator validatorId="fileUploadValidator"/>
+                                            <f:ajax listener="#{imageUploadBean.handleFileUpload}" render="@form"
+                                                    
+                                                    />
+                                        </h:inputFile>
+                                         <p> <h:messages id="messages" style="color: red;"/></p>                                            
+                                    </div>
+                                    
+                                </div>                                    
+                                
+                            </div>
+                        </h:form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            @media only screen and (max-width: 600px){
+                #profileDivImage {
+                    margin-left: 10px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+                #profileDivImage img{
+                    width: 100px;
+                    height: 100px;
+
+                }
+            }
+            @media only screen and (min-width: 601px){
+                #profileDivImage {
+                    position: absolute;
+                    margin-left: auto;
+                    z-index: 999;
+                }
+                #profileDivImage img{
+                    width: 300px;
+                    height: 300px;
+                }
+            }
+        </style>
+        <script>
+
+            $("img").on("error", function () {
+                $(this).unbind("error").attr("src", "#{request.contextPath}/faces/images/empl-blank.png");
+            });
+
+            
+//            function bindEventUploadImage(){
+//                var fileupload = $("#file");
+//                var image = $("#profileImage");
+//                
+//                image.click(function () {
+//                    fileupload.click();
+//                });
+//                
+//                fileupload.change(function () {
+//                    var fileName = $(this).val().split('\\')[$(this).val().split('\\').length - 1];
+//                    //filePath.html("<b>Selected File: </b>" + fileName);
+//                });
+//            }
+            
+        </script>
     </ui:composition>
 
 </html>

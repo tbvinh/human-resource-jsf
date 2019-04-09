@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f = "http://java.sun.com/jsf/core"   
+      >
+    <ui:composition template="/templates/default/main.xhtml">
+        <ui:param name = "title" value = "Human Resource - List of Employees"/>
+        <ui:define name="content">
+            <main class="main">
+                <!-- Breadcrumb-->
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Home</li>
+                    <li class="breadcrumb-item">Employee</li>
+
+                    <!-- Breadcrumb Menu-->
+                    <li class="breadcrumb-menu d-md-down-none">
+                        <div class="btn-group" role="group" aria-label="Button group">
+                            <a class="btn" href="#">
+                                <i class="icon-speech"></i>
+                            </a>
+                            <a class="btn" href="../dashboard.xhtml">
+                                <i class="icon-graph"></i>  Dashboard</a>
+                            <a class="btn cssImportEmplExcel" href="#">
+                                <i class="icon-settings"></i>  Import Excel</a>
+                        </div>
+                    </li>
+                </ol>
+                <div class="container-fluid">
+                    <div class="animated fadeIn">
+                        <table id="tblList" class="display" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>MSNV</th>
+                                    <th>MSNV6</th>
+                                    <th>Họ</th>
+                                    <th>Tên</th>
+                                    <th>Ngày vào làm</th>
+                                    <th>Ngày nghỉ việc</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Giới tính</th>
+                                    <th>Phòng ban</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ui:repeat var="o" value="#{employeeBean.emplInactives}">
+                                    <tr>
+                                        <td>
+                                            #{o.id}
+                                        </td>
+                                        <td>#{o.MSNV}</td>
+                                        <td>
+                                            <h:link outcome="edit" value="#{o.MSNV6}" target="_blank" >
+                                                <f:param name="id" value="#{o.id}" />
+                                            </h:link>
+                                        </td>
+                                        <td>#{o.HO}</td>
+                                        <td>#{o.TEN}</td>
+                                        
+                                        <td data-sort="#{o.DATE_IN}">
+                                            <h:outputText value="#{o.DATE_IN}">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td data-sort="#{o.DATE_OUT}">
+                                            <h:outputText value="#{o.DATE_OUT}">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td data-sort="#{o.NGAY_SINH}">
+                                            <h:outputText value="#{o.NGAY_SINH}">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>#{o.GIOI_TINH}</td>
+                                        <td>#{o.PHONG_BAN}</td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <ui:include src="import-excel.xhtml" >
+                    <ui:param name="fileName" value="ImportEmplExcel" />
+                </ui:include>
+                
+                <script>
+                    $(document).ready(function () {
+                        $('#tblList').DataTable();
+                        $('#tblList').show();
+                        $(".cssImportEmplExcel").click(function (e) {
+                            e.preventDefault();
+                            
+                            $('#dlgImportEmplExcel').modal('show');
+
+                        });
+                        
+                    });
+                </script>
+            </main>
+        </ui:define>
+    </ui:composition>
+</html>
+

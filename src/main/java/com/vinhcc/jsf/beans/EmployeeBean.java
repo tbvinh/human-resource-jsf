@@ -5,6 +5,7 @@
  */
 package com.vinhcc.jsf.beans;
 
+import com.vinhcc.jsf.dao.EmployeeDAO;
 import com.vinhcc.jsf.domain.Employee;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -21,20 +22,27 @@ import javax.inject.Named;
 @ManagedBean
 @ViewScoped
 @Named(value = "employeeBean")
-public class EmployeeBean implements Serializable {
+public class EmployeeBean extends BaseBean implements Serializable {
 
     List<Employee> empl;
+    List<Employee> emplInactive;
 
     @PostConstruct
     public void init() {
-        empl = new LinkedList<>();
-        
-        empl.add(new Employee(1, "Vinh"));
-        empl.add(new Employee(2, "Trần"));
+        EmployeeDAO employeeDAO = new EmployeeDAO();
+        employeeDAO.setStaticWhere("DATE_OUT is null");
+        empl = employeeDAO.selectAll();
     }
 
     public List<Employee> getEmpls() {
         return empl;
     }
-    
+    public List<Employee> getEmplInactives() {
+        if(emplInactive == null) {
+            EmployeeDAO employeeDAO = new EmployeeDAO();
+            employeeDAO.setStaticWhere("DATE_OUT is not null");
+            emplInactive = employeeDAO.selectAll();
+        }
+        return emplInactive;
+    }
 }

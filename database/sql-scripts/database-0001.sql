@@ -1,3 +1,5 @@
+SET SCHEMA APP;
+
 drop table Users;
 
 CREATE TABLE Users( 
@@ -7,6 +9,38 @@ CREATE TABLE Users(
 	PRIMARY KEY(id)
 );
 
-INSERT INTO Users VALUES(0,'adam','adam');
+INSERT INTO Users VALUES(0,'adam','adam1');
 
 --select * from  Users
+/*
+SELECT
+'ALTER TABLE '||S.SCHEMANAME||'.'||T.TABLENAME||' DROP CONSTRAINT '||C.CONSTRAINTNAME||';'
+FROM
+    SYS.SYSCONSTRAINTS C,
+    SYS.SYSSCHEMAS S,
+    SYS.SYSTABLES T
+WHERE
+    C.SCHEMAID = S.SCHEMAID
+AND
+    C.TABLEID = T.TABLEID
+AND
+S.SCHEMANAME = 'APP'
+UNION
+SELECT 'DROP TABLE ' || schemaname ||'.' || tablename || ';'
+FROM SYS.SYSTABLES
+INNER JOIN SYS.SYSSCHEMAS ON SYS.SYSTABLES.SCHEMAID = SYS.SYSSCHEMAS.SCHEMAID
+where schemaname='SA';
+
+ALTER TABLE APP.EMPLOYEE DROP CONSTRAINT SQL190308091152730;
+ALTER TABLE APP.USERS DROP CONSTRAINT SQL190308094735630;
+DROP TABLE SA.USERS;
+
+
+select st.tablename  from sys.systables st 
+LEFT OUTER join sys.sysschemas ss on (st.schemaid = ss.schemaid)
+ where ss.schemaname ='APP'
+
+select columndatatype, columnname
+from sys.syscolumns where referenceid = (select tableid from sys.systables where tablename = 'EMPLOYEE')
+order by columnnumber
+*/

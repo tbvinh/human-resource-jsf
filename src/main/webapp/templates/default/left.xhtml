@@ -20,37 +20,70 @@
                         
                         <li class="nav-item">
                             <a class="nav-link" href="#{request.contextPath}/faces/employee/index.xhtml">
-                              <i class="icon-people icons"></i> Employees</a>
+                              <i class="icon-people icons"></i> DS hiện tại</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="#{request.contextPath}/faces/employee/index-inactive.xhtml">
+                              <i class="icon-people icons"></i> Đã nghỉ</a>
+                        </li>
+<!--                        <li class="nav-item">
                             <a class="nav-link" href="#{request.contextPath}/faces/employee/edit.xhtml?id=2">
                               <i class="icon-people icons"></i> Edit</a>
-                        </li>
+                        </li>-->
                         
-                        <li class="nav-title">Features</li>
+                        <li class="nav-title">Tính năng</li>
                         <li class="nav-item nav-dropdown">
                           <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="nav-icon icon-puzzle"></i> Setting
+                            <i class="nav-icon icon-puzzle"></i> Cài đặt
                           </a>
                           <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                              <a class="nav-link" href="#{request.contextPath}/faces/admin.xhtml">
-                                <i class="nav-icon icon-puzzle"></i> Department
+                              <a class="nav-link" href="#">
+                                <i class="nav-icon icon-puzzle"></i> Phòng ban
                               </a>
                             </li>
                             <li class="nav-item">
                               <a class="nav-link" href="base/cards.html">
-                                <i class="nav-icon icon-puzzle"></i> Cards
+                                <i class="nav-icon icon-puzzle"></i> Người dùng
+                              </a>
+                            </li>
+<!--                            <li class="nav-item">
+                              <a class="nav-link" href="base/carousel.html">
+                                <i class="nav-icon icon-puzzle"></i> Carousel
+                              </a>
+                            </li>-->
+                          </ul>   
+                        </li>
+                        <li class="nav-item nav-dropdown">
+                          <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="nav-icon icon-puzzle"></i> Chấm công
+                          </a>
+                          <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                              <a class="nav-link" href="#{request.contextPath}/faces/admin.xhtml">
+                                <i class="nav-icon icon-puzzle"></i> Nghỉ phép
                               </a>
                             </li>
                             <li class="nav-item">
-                              <a class="nav-link" href="base/carousel.html">
-                                <i class="nav-icon icon-puzzle"></i> Carousel
+                              <a class="nav-link" href="#">
+                                <i class="nav-icon icon-puzzle"></i> Ra/Vô
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="#">
+                                <i class="nav-icon icon-puzzle"></i> Tổng hợp
                               </a>
                             </li>
                           </ul>   
                         </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="#{request.contextPath}/faces/admin.xhtml">
+                              <i class="icon-people icons"></i> Báo cáo</a>
+                        </li>
+                        
                     </ul>
+                    
                 </nav>
                 <button class="sidebar-minimizer brand-minimizer" type="button"></button>
             </div>

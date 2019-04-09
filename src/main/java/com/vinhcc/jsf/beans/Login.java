@@ -9,9 +9,12 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import com.vinhcc.jsf.dao.LoginDAO;
+import com.vinhcc.jsf.util.HRDataSource;
 import com.vinhcc.jsf.util.SessionUtils;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 @ManagedBean
 @SessionScoped
@@ -49,22 +52,37 @@ public class Login implements Serializable {
 
     //validate login
     public String validateUsernamePassword() {
-        boolean valid = LoginDAO.validate(user, pwd);
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+
+        HRDataSource hr = (HRDataSource) sessionMap.get("HRDataSource");
+        if (hr == null) {
+            try {
+                hr = new HRDataSource();
+                hr.initDataSource(user);
+                sessionMap.put("HRDataSource", hr);
+            } catch (Exception ex) {
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                "Cannot connect Database",
+                                ex.getMessage()));
+            }
+        }
+
+        boolean valid = LoginDAO.validate(hr, user, pwd);
         if (valid) {
             HttpSession session = SessionUtils.getSession();
             session.setAttribute("username", user);
-            FacesContext context = FacesContext.getCurrentInstance();
-            HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+
             String contextPath = origRequest.getContextPath();
             try {
-                FacesContext.getCurrentInstance().getExternalContext()
-                        .redirect(contextPath + "/faces/admin.xhtml");
+                context.getExternalContext().redirect(contextPath + "/faces/employee/index.xhtml");
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return "";
         } else {
-            FacesContext.getCurrentInstance().addMessage(
+            context.addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Incorrect Username and Passowrd",

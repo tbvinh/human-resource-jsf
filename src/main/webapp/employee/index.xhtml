@@ -14,48 +14,118 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Home</li>
                     <li class="breadcrumb-item">Employee</li>
-                    
+                    <li class="breadcrumb-item">
+                        <a href="#" id="cmdAddNewEmpl">Add New</a>
+                    </li>
                     <!-- Breadcrumb Menu-->
                     <li class="breadcrumb-menu d-md-down-none">
                         <div class="btn-group" role="group" aria-label="Button group">
                             <a class="btn" href="#">
                                 <i class="icon-speech"></i>
                             </a>
-                            <a class="btn" href="./">
+                            <a class="btn" href="../dashboard.xhtml">
                                 <i class="icon-graph"></i>  Dashboard</a>
-                            <a class="btn" href="#">
-                                <i class="icon-settings"></i>  Settings</a>
+                            <a class="btn cssImportEmplExcel" href="#">
+                                <i class="icon-settings"></i>  Import Excel</a>
                         </div>
                     </li>
                 </ol>
                 <div class="container-fluid">
                     <div class="animated fadeIn">
-                        <table id="tblList" class="display">
+                        <table id="tblList" class="display nowrap" style="display: none; width: 100%">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>
+                                    <th>MSNV</th>
+                                    <th>MSNV6</th>
+                                    <th>Họ</th>
+                                    <th>Tên</th>
+                                    <th>Ngày vào làm</th>
+                                    <th>Chức danh</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Giới tính</th>
+                                    <th>Phòng ban</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <ui:repeat var="o" value="#{employeeBean.empls}">
-                                <tr>
-                                    <td>
-                                        <h:link outcome="edit" value="#{o.id}" >
-                                            <f:param name="id" value="#{o.id}" />
-                                        </h:link>
-                                    </td>
-                                    <td>#{o.name}</td>
-                                </tr>
-                            </ui:repeat>
+                                <ui:repeat var="o" value="#{employeeBean.empls}">
+                                    <tr>
+                                        <td>
+                                            #{o.id}
+                                        </td>
+                                        <td>#{o.MSNV}</td>
+                                        <td>
+                                            <h:link outcome="edit" value="#{o.MSNV6}" target="_blank" >
+                                                <f:param name="id" value="#{o.id}" />
+                                            </h:link>
+                                        </td>
+                                        <td>#{o.HO}</td>
+                                        <td>#{o.TEN}</td>
+                                        
+                                        <td data-sort="#{o.DATE_IN}">
+                                            <h:outputText value="#{o.DATE_IN}">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{o.CHUC_DANH}">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td data-sort="#{o.NGAY_SINH}">
+                                            <h:outputText value="#{o.NGAY_SINH}">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>#{o.GIOI_TINH}</td>
+                                        <td>#{o.PHONG_BAN}</td>
+                                    </tr>
+                                </ui:repeat>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                <ui:include src="import-excel.xhtml" >
+                    <ui:param name="fileName" value="ImportEmplExcel" />
+                </ui:include>
+                
+                <ui:include src="add-new.xhtml" >
+                    <ui:param name="tabname" value="addnew" />
+               </ui:include>
+                
                 <script>
-                    $(document).ready(function() {
-                        $('#tblList').DataTable();
-                    } );
+                    $(document).ready(function () {
+                        var table = $('#tblList').DataTable({
+                            rowReorder: {
+                                selector: 'td:nth-child(2)'
+                            },
+//                            fixedHeader: {
+//                                header: false,
+//                                footer: false,
+//                                headerOffset: 300
+//                            },
+                            responsive: true
+                        });
+                        
+                        
+                        
+                        $('#tblList').show();
+                        
+//                        new $.fn.dataTable.FixedHeader( table, {
+//                            // options
+//                        } );
+                        $(".cssImportEmplExcel").click(function (e) {
+                            e.preventDefault();
+                            
+                            $('#dlgImportEmplExcel').modal('show');
+
+                        });
+                        $('#cmdAddNewEmpl').click(function (e){
+                           e.preventDefault();
+                           $('#dlgaddnew').modal('show');
+                        });
+                    });
                 </script>
             </main>
         </ui:define>

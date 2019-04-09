@@ -3,9 +3,12 @@
 <glassfish-web-app error-url="">
   <context-root>/hr</context-root>
   <class-loader delegate="true"/>
+  <!--<property name="alternatedocroot_1" value="from=/pictures/* dir=/Projects/hr-pictures" />-->
+  <property name="alternatedocroot_1" value="from=/pictures/* dir=d:/tmp" />
   <jsp-config>
     <property name="keepgenerated" value="true">
       <description>Keep a copy of the generated servlet class' java code.</description>
     </property>
   </jsp-config>
+  
 </glassfish-web-app>

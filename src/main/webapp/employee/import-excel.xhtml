@@ -1,0 +1,46 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui = "http://java.sun.com/jsf/facelets">
+
+    <ui:composition>
+        <div class="modal fade" id="dlg#{fileName}" tabindex="-1" role="dialog" 
+             aria-labelledby="dlg#{fileName}Label" aria-hidden="true"
+             data-backdrop="static"
+             >
+            <h:form id="form#{fileName}" enctype="multipart/form-data">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="dlg#{fileName}Label"> Upload</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <pre>
+                            Select File to upload
+                            </pre>
+                            <h:inputFile id="fileToUpload" required="true" requiredMessage="No file selected ..." 
+                                         value="#{excelImportEmployeesBean.fileUpload}"
+                                         />
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <h:commandButton value="Upload" styleClass="btn btn-secondary"
+                                             action="#{excelImportEmployeesBean.upload()}">
+                                <f:ajax execute="fileToUpload" render="@form"/>
+                            </h:commandButton>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </h:form>
+        </div>
+    </ui:composition>
+</html>

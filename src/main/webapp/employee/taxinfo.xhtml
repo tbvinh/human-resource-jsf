@@ -4,25 +4,275 @@
 
 <html xmlns = "http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui = "http://java.sun.com/jsf/facelets">
 
     <ui:composition>
         <div class="tab-pane fade" id="nav-#{tabname}" role="tabpanel" aria-labelledby="nav-#{tabname}-tab">
-            <div class="row">
-                <div class="col-2">
-                    <label>MST </label>
-                    <input class="form-control" />
+            <div class="card">
+                <div class="card-header">
+                    Thông tin thuế
                 </div>
 
-                <div class="col-2">
-                    <label>Ngày cấp</label>
-                    <input class="form-control" />
-                </div>
+                <div class="card-body">
+                    <div class="container">
+                        <h:form>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label>MST </label>
+                                    <h:inputText styleClass="form-control" value="#{employeeEditBean.employee.MST}" />
+                                </div>
 
-                <div class="col-2">
-                    <div><label> &nbsp;</label></div>
-                    <input type="button" class="btn btn-info" value="Save" />
+                                <div class="col-md-2">
+                                    <label>Ngày cấp</label>
+                                    <h:inputText id="MST_NGAY" styleClass="form-control" value="#{employeeEditBean.employee.MST_NGAY}" 
+                                                 a:placeholder="dd/MM/yyyy">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:inputText>
+                                    <h:message for="MST_NGAY" style="color: red" />
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div><label> &nbsp;</label></div>
+                                    <h:commandButton value="Lưu" action="#{employeeEditBean.save}" styleClass="btn btn-info" >
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-header">
+                    Người phụ thuộc
+                </div>
+                <div class="card-body">
+                    <div class="container">
+                        <h:form id="frmList#{tabname}">
+                            <h:dataTable id="tbl#{tabname}" value="#{employeeEditBean.employeeDependents}" var="_row" class="display responsive nowrap" width="100%">
+                                <h:column a:data-priority="1">
+                                    <f:facet name="header">ID</f:facet>    				
+                                        #{_row.id}
+                                </h:column>
+                                <h:column a:data-priority="2">
+                                    <f:facet name="header">Số CMND</f:facet>    				
+                                        #{_row.code}
+                                </h:column>
+                                <h:column a:data-priority="2">
+                                    <f:facet name="header">Tên</f:facet>    				
+                                        #{_row.name}
+                                </h:column>
+
+
+                                <h:column a:data-priority="0">
+                                    <f:facet name="header">
+                                        <h:commandLink action="#{employeeEditBean.addDependent()}" value="Add" >
+                                            <f:ajax render="form#{tabname}" onevent="onEventAdd#{tabname}" />
+                                        </h:commandLink>
+                                    </f:facet>   
+                                    <h:commandLink action="#{employeeEditBean.editEmployeeDependent(_row.id)}"
+                                                   value="Edit" title="Hiệu chỉnh dòng"
+                                                   >
+                                        <f:ajax render="form#{tabname}" onevent="onEventEdit#{tabname}" />
+                                    </h:commandLink>
+                                    
+                                    <h:outputText value=" " escape="true" />
+                                    
+                                    <h:commandLink action="#{employeeEditBean.editEmployeeDependent(_row.id)}"
+                                                   styleClass="fa fa-trash" title="Xóa dòng" style="color: #e0a800 !important"
+                                                   >
+                                        
+                                        <f:ajax render="form#{tabname}Delete" onevent="onEventDelete#{tabname}" />
+                                    </h:commandLink>
+                                    
+                                    
+                                </h:column>
+
+                            </h:dataTable>
+                        </h:form>
+                    </div>
+                    
+                    <!--Edit/Add Dialog-->
+                    <div class="modal fade" id="dlg#{tabname}" tabindex="-1" role="dialog" 
+                         aria-labelledby="dlg#{tabname}Label" aria-hidden="true"
+                         data-backdrop="static"
+                         >
+                        <h:form id="form#{tabname}">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="dlg#{tabname}Label">#{employeeEditBean.employeeDependent.id==0 ? 'Add': 'Edit'}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <h:inputHidden value="#{employeeEditBean.employeeDependent.id}" />
+
+                                        <div class="row mt-1">
+                                            <div class="col-2">Số CMND</div>
+                                            <div class="col-10">
+                                                <h:inputText id="txtDependentCode" value="#{employeeEditBean.employeeDependent.code}" 
+                                                             required="true" requiredMessage="Mã không được rỗng"
+                                                             styleClass="form-control"/>
+                                                <h:message for="txtDependentCode" style="color: red" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-1">
+                                            <div class="col-2">Tên</div>
+                                            <div class="col-10">
+                                                <h:inputText id="txtDependentName" value="#{employeeEditBean.employeeDependent.name}" 
+                                                             required="true" requiredMessage="Không được rỗng"
+                                                             styleClass="form-control">
+
+                                                </h:inputText>
+                                                <h:message for="txtDependentName" style="color: red" />
+                                            </div>
+
+                                        </div>
+
+                                        <h:messages id="taxInfoErrors" style="display: none" />
+                                    </div>
+                                    <div class="modal-footer">
+                                        <h:commandButton type="submit" class="btn btn-primary" action="#{employeeEditBean.saveDependent()}" value="Save">
+                                            <f:ajax execute="@form" render="@form frmList#{tabname}" onevent="ajaxEventSave#{tabname}"
+                                                    />
+                                        </h:commandButton>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                    <!--Delete Dialog-->
+                    <div class="modal fade" id="dlg#{tabname}Delete" tabindex="-1" role="dialog" 
+                         aria-labelledby="dlg#{tabname}LabelDelete" aria-hidden="true"
+                         data-backdrop="static"
+                         >
+                        <h:form id="form#{tabname}Delete">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="dlg#{tabname}LabelDelete">Delete</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <h:inputHidden value="#{employeeEditBean.employeeDependent.id}" />
+
+                                        <div class="row mt-1">
+                                            <div class="col-2">Số CMND</div>
+                                            <div class="col-10">
+                                                <h:outputLabel id="txtDependentCode" value="#{employeeEditBean.employeeDependent.code}" 
+                                                             styleClass="form-control"/>
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-1">
+                                            <div class="col-2">Tên</div>
+                                            <div class="col-10">
+                                                <h:outputLabel id="txtDependentName" value="#{employeeEditBean.employeeDependent.name}" 
+                                                             styleClass="form-control">
+
+                                                </h:outputLabel>
+                                                
+                                            </div>
+
+                                        </div>
+
+                                        <h:messages id="taxInfoErrors" style="display: none" />
+                                    </div>
+                                    <div class="modal-footer">
+                                        <h:commandButton type="submit" class="btn btn-warning" action="#{employeeEditBean.deleteDependent()}" value="Delete">
+                                            <f:ajax execute="@form" render="@form frmList#{tabname}" onevent="ajaxEventDelete#{tabname}"
+                                                    />
+                                        </h:commandButton>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                    
+                    <script>
+                        var db#{tabname} = null;
+                        $(document).ready(function () {
+
+                            $('#dlg#{tabname}').on('shown.bs.modal', function () {
+                                setTimeout(function () {
+                                    $('#form#{tabname}-txtDependentCode').focus();
+                                }, 100);
+                            });
+
+                            db#{tabname} = $('#frmList#{tabname}-tbl#{tabname}').DataTable({
+                                "bStateSave": true,
+                                "responsive": true,
+                                "columnDefs": [
+                                    {"orderable": false, "targets": 3},
+                                ]
+                            });
+                        });
+
+                        function onEventEdit#{tabname}(data) {
+                            $('#dlg#{tabname}').modal('show');
+                        }
+                        function onEventAdd#{tabname}(data) {
+                            $('#dlg#{tabname}').modal('show');
+                        }
+                        
+                        function onEventDelete#{tabname}(data) {
+                            $('#dlg#{tabname}Delete').modal('show');
+                        }
+                        function ajaxEventSave#{tabname}(data) {
+
+                            console.log('ajaxEventSave#{tabname}');
+                            let err = $('#formtaxinfo-taxInfoErrors').html();
+                            
+                            if (data.status === "success" &amp;&amp; err === '') {
+                                $('#dlg#{tabname}').modal('hide');
+                                //Recreate datatable
+                                if (db#{tabname} != null)
+                                    db#{tabname}.destroy();
+                                   
+                                db#{tabname} = $('#frmList#{tabname}-tbl#{tabname}').DataTable({
+                                    "bStateSave": true,
+                                    "responsive": true,
+                                    "columnDefs": [
+                                        {"orderable": false, "targets": 3},
+                                    ]
+                                });
+                            }
+                        }
+                        
+                        function ajaxEventDelete#{tabname}(data) {
+
+                            let err = $('#formtaxinfo-taxInfoErrors').html();
+                            
+                            if (data.status === "success" &amp;&amp; err === '') {
+                                $('#dlg#{tabname}Delete').modal('hide');
+                                //Recreate datatable
+                                if (db#{tabname} != null)
+                                    db#{tabname}.destroy();
+                                   
+                                db#{tabname} = $('#frmList#{tabname}-tbl#{tabname}').DataTable({
+                                    "bStateSave": true,
+                                    "responsive": true,
+                                    "columnDefs": [
+                                        {"orderable": false, "targets": 3},
+                                    ]
+                                });
+                            }
+                        }
+                    </script>
                 </div>
             </div>
         </div>
